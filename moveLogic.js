@@ -26,11 +26,37 @@ export default function move(gameState){
     // TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     // gameState.board contains an object representing the game board including its width and height
     // https://docs.battlesnake.com/api/objects/board
+        if(myHead.x == 0){
+            moveSafety.left = false
+        }
+        if(myHead.x == gameState.board.width-1){
+            moveSafety.right = false
+        }
+        if(myHead.y == 0){
+            moveSafety.down = false
+        }
+        if(myHead.y == gameState.board.height -1){
+            moveSafety.up = false
+        }
     
     // TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     // gameState.you contains an object representing your snake, including its coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
-    
+        for (let i = 0; i < gameState.you.body.length; i++) {
+            if(myHead.y == gameState.you.body[i].y-1&& myHead.x== gameState.you.body[i].x){
+                moveSafety.up = false
+            }
+            if(myHead.x==gameState.you.body[i].x-1&& myHead.y==gameState.you.body[i].y){
+                moveSafety.left = false
+            }
+            if(myHead.y == gameState.you.body[i].y+1 && myHead.x== gameState.you.body[i].x){
+                moveSafety.down = false
+            }
+            if(myHead.x==gameState.you.body[i].x+1&&myHead.y==gameState.you.body[i].y){
+                moveSafety.right =false
+            }
+            
+        }
     
     // TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     // gameState.board.snakes contains an array of enemy snake objects, which includes their coordinates
@@ -49,7 +75,7 @@ export default function move(gameState){
     
     // Choose a random move from the safe moves
     const nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
-    
+
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
     
