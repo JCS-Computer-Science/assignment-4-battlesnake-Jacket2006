@@ -96,12 +96,7 @@ export default function move(gameState){
         }
     }
     
-    
-    //console.log(gameState.board.snakes.length);
-    
-    //console.log(gameState.board.snakes[0].body[0].y);
-   
-
+    let closestFood 
 
     // Are there any safe moves left?
     
@@ -115,18 +110,37 @@ export default function move(gameState){
     }
     
     // Choose a random move from the safe moves
-    //let biggestSnake 
-    //feed mode
-    // for (let i = 0; i < gameState.board.snakes.length; i++) {
-        //     }
-    //     if(gameState.you.body.length<=gameState.board.snakes[i].length){
-            
-    // }
+    
+    
+//    feed mode/killmode
+//     for (let i = 0; i < gameState.board.snakes.length; i++) {
+//         if(gameState.you.body.length>gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal") {
+//             biggestSnake =true
+//         }
+//         if(gameState.you.body.length<gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal"){
+//             biggestSnake = false
+//         }
+//     }
+//     console.log(biggestSnake);
+
+//     if(biggestSnake=true){
+//     console.log("kill mode");
+
+//     }
+
+
+
+
+    
     const nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
    // const nextMove = safeMoves[]
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
-    
+
+   
+
+
+
     console.log(`MOVE ${gameState.turn}: ${nextMove}`)
     return { move: nextMove };
 }
