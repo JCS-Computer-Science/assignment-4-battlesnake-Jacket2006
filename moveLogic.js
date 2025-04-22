@@ -76,7 +76,7 @@ export default function move(gameState){
 
         for (let n = 0; n < gameState.board.snakes[i].body.length; n++) {//snake coords loop
             
-            if(myHead.y == gameState.board.snakes[i].body[n].y-1 && myHead.x== gameState.board.snakes[i].body[n].x){
+            if(myHead.y == gameState.board.snakes[i].body[n].y-1&&myHead.x== gameState.board.snakes[i].body[n].x ){
                 moveSafety.up = false
                 console.log("caution snake up");       
             }
@@ -84,7 +84,7 @@ export default function move(gameState){
                 moveSafety.left = false
                 console.log("caution snake left");
             }
-            if(myHead.y == gameState.board.snakes[i].body[n].y+1 && myHead.x == gameState.board.snakes[i].body[n].x){
+            if(myHead.y == gameState.board.snakes[i].body[n].y+1&& myHead.x == gameState.board.snakes[i].body[n].x){
                 moveSafety.down = false
                 console.log("caution snake down");
             }
@@ -96,7 +96,7 @@ export default function move(gameState){
         }
     }
     
-    let closestFood 
+   
 
     // Are there any safe moves left?
     
@@ -112,34 +112,63 @@ export default function move(gameState){
     // Choose a random move from the safe moves
     
     
-//    feed mode/killmode
-//     for (let i = 0; i < gameState.board.snakes.length; i++) {
-//         if(gameState.you.body.length>gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal") {
-//             biggestSnake =true
-//         }
-//         if(gameState.you.body.length<gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal"){
-//             biggestSnake = false
-//         }
-//     }
-//     console.log(biggestSnake);
-
-//     if(biggestSnake=true){
-//     console.log("kill mode");
-
-//     }
-
-
-
-
     
-    const nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
-   // const nextMove = safeMoves[]
+    
+    
+    
+    
+    let nextMove
+    let biggestSnake //= safeMoves[Math.floor(Math.random() * safeMoves.length)];
+    // const nextMove = safeMoves[]
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
+    
 
+       //feed mode/killmode
+        for (let i = 0; i < gameState.board.snakes.length; i++) {
+            if(gameState.you.body.length>gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal") {
+                biggestSnake = true
+            }else{
+                biggestSnake = false
+            }
+        }
+        if(biggestSnake==true){
+        console.log("kill mode");
+       
+            if(myHead.x>gameState.board.snakes[1].body[0].x&&moveSafety.left == true && gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
+                nextMove = "left"
+            }
+            if(myHead.x<gameState.board.snakes[1].body[0].x&&moveSafety.right == true&& gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
+                nextMove = "right"
+            }
+            if(myHead.y>gameState.board.snakes[1].body[0].y&&moveSafety.down == true && gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
+                nextMove = "down"
+            }
+            if(myHead.y<gameState.board.snakes[1].body[0].y&&moveSafety.up == true&& gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
+                nextMove = "up"
+            }
+    }
+
+        if(biggestSnake==false){
+            console.log("feed mode");
+            
+        for (let i = 0; i < gameState.board.food.length; i++) {
+             if(myHead.x>gameState.board.food[i].x&& moveSafety.left == true){
+                nextMove = "left"
+            }
+            if(myHead.x<gameState.board.food[i].x&& moveSafety.right == true){
+                    nextMove = "right"
+            }
+            if(myHead.y>gameState.board.food[i].y&& moveSafety.down == true){
+                nextMove = "down"
+            }
+            if(myHead.y<gameState.board.food[i].y&& moveSafety.up == true){
+                nextMove = "up"
+            }
+        }
+    }
    
-
-
+   
 
     console.log(`MOVE ${gameState.turn}: ${nextMove}`)
     return { move: nextMove };
