@@ -119,7 +119,6 @@ export default function move(gameState){
     
     let nextMove
     let biggestSnake //= safeMoves[Math.floor(Math.random() * safeMoves.length)];
-    // const nextMove = safeMoves[]
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
     
@@ -146,15 +145,20 @@ export default function move(gameState){
             }
             if(myHead.y<gameState.board.snakes[1].body[0].y&&moveSafety.up == true&& gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
                 nextMove = "up"
+            }else{
+            nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
             }
+            
     }
-
+    
         if(biggestSnake==false){
             console.log("feed mode");
             
         for (let i = 0; i < gameState.board.food.length; i++) {
              if(myHead.x>gameState.board.food[i].x&& moveSafety.left == true){
                 nextMove = "left"
+            }else if(moveSafety.right == true){
+                nextMove = "right"
             }
             if(myHead.x<gameState.board.food[i].x&& moveSafety.right == true){
                     nextMove = "right"
@@ -164,9 +168,11 @@ export default function move(gameState){
             }
             if(myHead.y<gameState.board.food[i].y&& moveSafety.up == true){
                 nextMove = "up"
+            }else{
+            nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
             }
         }
-    }
+   }
    
    
 
