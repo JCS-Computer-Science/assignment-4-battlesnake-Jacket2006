@@ -131,34 +131,32 @@ export default function move(gameState){
                 biggestSnake = false
             }
         }
-        if(biggestSnake==true){
-        console.log("kill mode");
+    //     if(biggestSnake==true){
+    //     console.log("kill mode");
        
-            if(myHead.x>gameState.board.snakes[1].body[0].x&&moveSafety.left == true && gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
-                nextMove = "left"
-            }
-            if(myHead.x<gameState.board.snakes[1].body[0].x&&moveSafety.right == true&& gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
-                nextMove = "right"
-            }
-            if(myHead.y>gameState.board.snakes[1].body[0].y&&moveSafety.down == true && gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
-                nextMove = "down"
-            }
-            if(myHead.y<gameState.board.snakes[1].body[0].y&&moveSafety.up == true&& gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
-                nextMove = "up"
-            }else{
-            nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
-            }
+    //         if(myHead.x>gameState.board.snakes[1].body[0].x&&moveSafety.left == true && gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
+    //             nextMove = "left"
+    //         }
+    //         if(myHead.x<gameState.board.snakes[1].body[0].x&&moveSafety.right == true&& gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
+    //             nextMove = "right"
+    //         }
+    //         if(myHead.y>gameState.board.snakes[1].body[0].y&&moveSafety.down == true && gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
+    //             nextMove = "down"
+    //         }
+    //         if(myHead.y<gameState.board.snakes[1].body[0].y&&moveSafety.up == true&& gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
+    //             nextMove = "up"
+    //         }else{
+    //         nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
+    //         }
             
-    }
+    // }
     
-        if(biggestSnake==false){
-            console.log("feed mode");
+        // if(biggestSnake==false){
+        //     console.log("feed mode");
             
         for (let i = 0; i < gameState.board.food.length; i++) {
              if(myHead.x>gameState.board.food[i].x&& moveSafety.left == true){
                 nextMove = "left"
-            }else if(moveSafety.right == true){
-                nextMove = "right"
             }
             if(myHead.x<gameState.board.food[i].x&& moveSafety.right == true){
                     nextMove = "right"
@@ -168,11 +166,12 @@ export default function move(gameState){
             }
             if(myHead.y<gameState.board.food[i].y&& moveSafety.up == true){
                 nextMove = "up"
-            }else{
-            nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
+            }
+            if(nextMove == undefined){
+                nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
             }
         }
-   }
+  // }
    
    
 
