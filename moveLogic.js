@@ -114,7 +114,7 @@ export default function move(gameState){
     
     
     
-    
+    let tail = gameState.you.body[gameState.you.body.length-1]
     
     
     let nextMove
@@ -153,7 +153,7 @@ export default function move(gameState){
     
         // if(biggestSnake==false){
         //     console.log("feed mode");
-            
+            // if(gameState.you.health<50){
         for (let i = 0; i < gameState.board.food.length; i++) {
              if(myHead.x>gameState.board.food[i].x&& moveSafety.left == true){
                 nextMove = "left"
@@ -171,6 +171,12 @@ export default function move(gameState){
                 nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
             }
         }
+    // }else{
+    //     if(myHead.x==tail.x-1){
+    //         nextMove = "right"
+    //     }
+    //     if(myHead.)
+    // }
   // }
    
    
