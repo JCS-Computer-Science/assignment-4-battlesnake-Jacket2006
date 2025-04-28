@@ -62,10 +62,9 @@ export default function move(gameState){
             if(myHead.x==gameState.you.body[i].x-1 && myHead.y==gameState.you.body[i].y){
                 moveSafety.right =false
                 console.log("unsafe move right");
-                
             }
-            
         }
+        //if()
     
     // TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     // gameState.board.snakes contains an array of enemy snake objects, which includes their coordinates
@@ -114,23 +113,23 @@ export default function move(gameState){
     
     
     
-    let tail = gameState.you.body[gameState.you.body.length-1]
-    
+
+    const tail = gameState.you.body[gameState.you.body.length - 1];
     
     let nextMove
-    let biggestSnake //= safeMoves[Math.floor(Math.random() * safeMoves.length)];
+   // let biggestSnake //= safeMoves[Math.floor(Math.random() * safeMoves.length)];
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
     
 
        //feed mode/killmode
-        for (let i = 0; i < gameState.board.snakes.length; i++) {
-            if(gameState.you.body.length>gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal") {
-                biggestSnake = true
-            }else{
-                biggestSnake = false
-            }
-        }
+        // for (let i = 0; i < gameState.board.snakes.length; i++) {
+        //     if(gameState.you.body.length>gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal") {
+        //         biggestSnake = true
+        //     }else{
+        //         biggestSnake = false
+        //     }
+        // }
     //     if(biggestSnake==true){
     //     console.log("kill mode");
        
@@ -145,39 +144,38 @@ export default function move(gameState){
     //         }
     //         if(myHead.y<gameState.board.snakes[1].body[0].y&&moveSafety.up == true&& gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
     //             nextMove = "up"
-    //         }else{
-    //         nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
     //         }
-            
+    //         if(nextMove == undefined){
+    //         nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
+    //         }  
     // }
     
-        // if(biggestSnake==false){
-        //     console.log("feed mode");
-            // if(gameState.you.health<50){
-        for (let i = 0; i < gameState.board.food.length; i++) {
-             if(myHead.x>gameState.board.food[i].x&& moveSafety.left == true){
+       // if(biggestSnake==false){
+        //for (let i = 0; i < gameState.board.food.length; i++) {
+        if(gameState.you.health<30){
+
+             if(myHead.x>gameState.board.food[0].x&& moveSafety.left == true){
                 nextMove = "left"
             }
-            if(myHead.x<gameState.board.food[i].x&& moveSafety.right == true){
+            if(myHead.x<gameState.board.food[0].x&& moveSafety.right == true){
                     nextMove = "right"
             }
-            if(myHead.y>gameState.board.food[i].y&& moveSafety.down == true){
+            if(myHead.y>gameState.board.food[0].y&& moveSafety.down == true){
                 nextMove = "down"
             }
-            if(myHead.y<gameState.board.food[i].y&& moveSafety.up == true){
+            if(myHead.y<gameState.board.food[0].y&& moveSafety.up == true){
                 nextMove = "up"
             }
             if(nextMove == undefined){
                 nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
             }
-        }
-    // }else{
-    //     if(myHead.x==tail.x-1){
-    //         nextMove = "right"
-    //     }
-    //     if(myHead.)
-    // }
-  // }
+       // }
+       //}
+    }else{
+        
+    }
+
+
    
    
 
