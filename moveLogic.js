@@ -117,42 +117,44 @@ export default function move(gameState){
     const tail = gameState.you.body[gameState.you.body.length - 1];
     
     let nextMove
-   // let biggestSnake //= safeMoves[Math.floor(Math.random() * safeMoves.length)];
+   let biggestSnake //= safeMoves[Math.floor(Math.random() * safeMoves.length)];
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
     
-
-       //feed mode/killmode
-        // for (let i = 0; i < gameState.board.snakes.length; i++) {
-        //     if(gameState.you.body.length>gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal") {
-        //         biggestSnake = true
-        //     }else{
-        //         biggestSnake = false
-        //     }
-        // }
-    //     if(biggestSnake==true){
-    //     console.log("kill mode");
-       
-    //         if(myHead.x>gameState.board.snakes[1].body[0].x&&moveSafety.left == true && gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
-    //             nextMove = "left"
-    //         }
-    //         if(myHead.x<gameState.board.snakes[1].body[0].x&&moveSafety.right == true&& gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
-    //             nextMove = "right"
-    //         }
-    //         if(myHead.y>gameState.board.snakes[1].body[0].y&&moveSafety.down == true && gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
-    //             nextMove = "down"
-    //         }
-    //         if(myHead.y<gameState.board.snakes[1].body[0].y&&moveSafety.up == true&& gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
-    //             nextMove = "up"
-    //         }
-    //         if(nextMove == undefined){
-    //         nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
-    //         }  
-    // }
     
-       // if(biggestSnake==false){
-        //for (let i = 0; i < gameState.board.food.length; i++) {
-        if(gameState.you.health<30){
+    
+      // feed mode/killmode
+        for (let i = 0; i < gameState.board.snakes.length; i++) {
+            if(gameState.you.body.length>gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal") {
+                biggestSnake = true
+            }else{
+                biggestSnake = false
+            }
+        }
+        if(biggestSnake==true){
+        console.log("kill mode");
+       
+            if(myHead.x>gameState.board.snakes[1].body[0].x&&moveSafety.left == true && gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
+                nextMove = "left"
+            }
+            if(myHead.x<gameState.board.snakes[1].body[0].x&&moveSafety.right == true&& gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
+                nextMove = "right"
+            }
+            if(myHead.y>gameState.board.snakes[1].body[0].y&&moveSafety.down == true && gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
+                nextMove = "down"
+            }
+            if(myHead.y<gameState.board.snakes[1].body[0].y&&moveSafety.up == true&& gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
+                nextMove = "up"
+            }
+            if(nextMove == undefined){
+            nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
+            }  
+    }
+    
+       if(biggestSnake==false){
+        
+        
+        //if(gameState.you.health<40){
 
              if(myHead.x>gameState.board.food[0].x&& moveSafety.left == true){
                 nextMove = "left"
@@ -169,11 +171,14 @@ export default function move(gameState){
             if(nextMove == undefined){
                 nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
             }
-       // }
-       //}
-    }else{
+       }
+    //}
         
-    }
+
+
+    // else{
+    //     nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
+    // }
 
 
    
