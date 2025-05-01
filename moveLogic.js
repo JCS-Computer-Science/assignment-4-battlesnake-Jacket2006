@@ -26,19 +26,50 @@ export default function move(gameState){
     // TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     // gameState.board contains an object representing the game board including its width and height
     // https://docs.battlesnake.com/api/objects/board
-        if(myHead.x == 0){
+    let wallL = 0
+    let wallR = 11
+    let wallU = 11
+    let wallD = 0
+    
+    let lIndex = 1
+    let rIndex =
+
+
+console.log(wallL);
+
+    for (let i = 0; i < gameState.board.hazards.length; i++) {
+    if(gameState.board.hazards[i].y==5&&gameState.board.hazards[i].x>wallL){
+        wallL++
+        console.log("Border shrink left");
+        
+    }
+    if(gameState.board.hazards[i].y==5&&gameState.board.hazards[i].x<3){
+        wallR--
+        console.log("Border shrink right");
+    }
+     if (gameState.board.hazards[i].x==5 && gameState.board.hazards[i].y >wallD){
+        wallD++
+        console.log("Border shrink down");
+     }  
+    if(gameState.board.hazards[i].x==5 && gameState.board.hazards[i].y <wallU){
+        wallU--
+        console.log("Border shrink up");
+    }
+    }
+    
+        if(myHead.x == wallL){
             moveSafety.left = false
             console.log("border left"); 
         }
-        if(myHead.x == gameState.board.width-1){
+        if(myHead.x == wallR){
             moveSafety.right = false
             console.log("border right");
         }
-        if(myHead.y == 0){
+        if(myHead.y == wallD){
             moveSafety.down = false
             console.log("border down");
         }
-        if(myHead.y == gameState.board.height -1){
+        if(myHead.y == wallU){
             moveSafety.up = false
             console.log("border up");
         }
@@ -70,6 +101,69 @@ export default function move(gameState){
     // gameState.board.snakes contains an array of enemy snake objects, which includes their coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
     
+    for (let i = 0; i < gameState.board.snakes.length; i++) {
+        const snake = gameState.board.snakes[i];
+        const enemyHead = snake.body[0];
+        const enemyBody = snake.body
+        //Dont collide with their head
+        if (enemyHead.x == myHead.x && enemyHead.y === myHead.y + 1){
+            moveSafety.up = false;
+            console.log("Dont go up: enemy head");  
+        }
+        if (enemyHead.x == myHead.x && enemyHead.y === myHead.y - 1){
+            moveSafety.down = false;
+            console.log("Dont go down: enemy head");
+        }
+        if (enemyHead.x == myHead.x - 1 && enemyHead.y === myHead.y){
+            moveSafety.left = false;  
+            console.log("Dont go left: enemy head");          
+        }
+        if (enemyHead.x == myHead.x + 1 && enemyHead.y === myHead.y){
+            moveSafety.right = false;  
+            console.log("Dont go right: enemy head");          
+        }
+        //Avoid adjacent spots
+        if (enemyHead.x == myHead.x && enemyHead.y === myHead.y + 2){
+            moveSafety.up = false
+            console.log("Avoid up: ememy head");
+        }
+        if (enemyHead.x == myHead.x && enemyHead.y === myHead.y - 2){
+            moveSafety.down = false
+            console.log("Avoid down: ememy head");                
+        }
+        if (enemyHead.x == myHead.x - 2 && enemyHead.y === myHead.y){
+            moveSafety.left = false
+            console.log("Avoid left: ememy head");
+        }
+        if (enemyHead.x == myHead.x + 2 && enemyHead.y === myHead.y){
+            moveSafety.right = false
+            console.log("Avoid right: ememy head");
+        }
+        //Avoid adjacent diagonal spots
+        if (enemyHead.x == myHead.x - 1 && enemyHead.y === myHead.y - 1){
+            moveSafety.down = false
+            moveSafety.left = false
+            console.log("Avoid down and left: enemy head");            
+        }
+        if (enemyHead.x == myHead.x + 1 && enemyHead.y === myHead.y + 1 ){
+            moveSafety.right = false
+            moveSafety.up = false
+            console.log("Avoid right and up: enemy head");            
+        }
+        if (enemyHead.x == myHead.x - 1 && enemyHead.y === myHead.y + 1){
+            moveSafety.up = false
+            moveSafety.left = false
+            console.log("Avoid up and left: enemy head");            
+        }
+        if (enemyHead.x == myHead.x + 1  && enemyHead.y === myHead.y - 1){
+           moveSafety.right =false
+           moveSafety.down = false
+            console.log("Avoid down and right: enemy head");            
+        }
+    }
+
+
+
 
     for (let i = 0; i < gameState.board.snakes.length; i++) {//snake loop
 
@@ -95,6 +189,7 @@ export default function move(gameState){
         }
     }
     
+   //dead ends
    
 
     // Are there any safe moves left?
@@ -105,7 +200,7 @@ export default function move(gameState){
     const safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
     if (safeMoves.length == 0) {
         console.log(`MOVE ${gameState.turn}: No safe moves detected! Moving down`);
-        return { move: "down" };
+        return { move: safeMoves[Math.floor(Math.random() * safeMoves.length)] };
     }
     
     // Choose a random move from the safe moves
@@ -114,7 +209,6 @@ export default function move(gameState){
     
     
 
-    const tail = gameState.you.body[gameState.you.body.length - 1];
     
     let nextMove
    let biggestSnake //= safeMoves[Math.floor(Math.random() * safeMoves.length)];
@@ -124,37 +218,53 @@ export default function move(gameState){
     
     
       // feed mode/killmode
-        for (let i = 0; i < gameState.board.snakes.length; i++) {
-            if(gameState.you.body.length>gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal") {
-                biggestSnake = true
-            }else{
-                biggestSnake = false
-            }
-        }
-        if(biggestSnake==true){
-        console.log("kill mode");
+    //     for (let i = 0; i < gameState.board.snakes.length; i++) {
+    //         if(gameState.you.body.length>gameState.board.snakes[i].length && gameState.board.snakes[i].name != "FlintonSteal") {
+    //             biggestSnake = true
+    //         }else{
+    //             biggestSnake = false
+    //         }
+    //     }
+    //     if(biggestSnake==true){
+    //     console.log("kill mode");
        
-            if(myHead.x>gameState.board.snakes[1].body[0].x&&moveSafety.left == true && gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
-                nextMove = "left"
-            }
-            if(myHead.x<gameState.board.snakes[1].body[0].x&&moveSafety.right == true&& gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
+    //         if(myHead.x>gameState.board.snakes[1].body[0].x&&moveSafety.left == true && gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
+    //             nextMove = "left"
+    //         }
+    //         if(myHead.x<gameState.board.snakes[1].body[0].x&&moveSafety.right == true&& gameState.board.snakes[1].body[1].y!=gameState.board.snakes[1].body[0].y){
+    //             nextMove = "right"
+    //         }
+    //         if(myHead.y>gameState.board.snakes[1].body[0].y&&moveSafety.down == true && gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
+    //             nextMove = "down"
+    //         }
+    //         if(myHead.y<gameState.board.snakes[1].body[0].y&&moveSafety.up == true&& gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
+    //             nextMove = "up"
+    //         }
+    //         if(nextMove == undefined){
+    //         nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
+    //         }  
+    // }
+    
+      //f(biggestSnake==false){
+        const tail = gameState.you.body[gameState.you.body.length - 1];
+        if(gameState.you.body.length>5&&gameState.you.health>40){
+            
+            if(myHead.x<=tail.x&&moveSafety.right==true){
                 nextMove = "right"
             }
-            if(myHead.y>gameState.board.snakes[1].body[0].y&&moveSafety.down == true && gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
-                nextMove = "down"
-            }
-            if(myHead.y<gameState.board.snakes[1].body[0].y&&moveSafety.up == true&& gameState.board.snakes[1].body[1].x!=gameState.board.snakes[1].body[0].x){
+            if(myHead.y<tail.y&&moveSafety.up==true){
                 nextMove = "up"
             }
+            if(myHead.x>=tail.x&&moveSafety.left==true){
+                nextMove = "left"
+            }
+            if(myHead.y>tail.y&&moveSafety.down==true){
+                nextMove = "down"
+            }
             if(nextMove == undefined){
-            nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
-            }  
-    }
-    
-       if(biggestSnake==false){
-        
-        
-        //if(gameState.you.health<40){
+                nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
+            }
+        }else{
 
              if(myHead.x>gameState.board.food[0].x&& moveSafety.left == true){
                 nextMove = "left"
@@ -171,8 +281,8 @@ export default function move(gameState){
             if(nextMove == undefined){
                 nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];
             }
-       }
-    //}
+        }
+   // }
         
 
 
