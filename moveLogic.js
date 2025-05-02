@@ -27,49 +27,54 @@ export default function move(gameState){
     // gameState.board contains an object representing the game board including its width and height
     // https://docs.battlesnake.com/api/objects/board
     let wallL = 0
-    let wallR = 11
-    let wallU = 11
+    let wallR = 10
+    let wallU = 10
     let wallD = 0
     
-    let lIndex = 1
-    let rIndex =
+    let lIndex = -1
+    let rIndex = 11
+    let uIndex = 11
+    let dIndex = -1
+    let boardMidx = gameState.board.width/2
+    let boardMidy = gameState.board.length/2
 
-
-console.log(wallL);
-
-    for (let i = 0; i < gameState.board.hazards.length; i++) {
-    if(gameState.board.hazards[i].y==5&&gameState.board.hazards[i].x>wallL){
-        wallL++
-        console.log("Border shrink left");
-        
-    }
-    if(gameState.board.hazards[i].y==5&&gameState.board.hazards[i].x<3){
-        wallR--
-        console.log("Border shrink right");
-    }
-     if (gameState.board.hazards[i].x==5 && gameState.board.hazards[i].y >wallD){
-        wallD++
-        console.log("Border shrink down");
-     }  
-    if(gameState.board.hazards[i].x==5 && gameState.board.hazards[i].y <wallU){
-        wallU--
-        console.log("Border shrink up");
-    }
-    }
     
-        if(myHead.x == wallL){
+    //if()
+    // for (let i = 0; i < gameState.board.hazards.length; i++) {
+    //     if(gameState.board.hazards[i].y==5&&gameState.board.hazards[i].x>lIndex&&gameState.board.hazards[i].x<boardMidx){
+    //         wallL++
+    //         lIndex++
+    //         console.log("Border shrink left");
+    //     }
+    //     if(gameState.board.hazards[i].y==5&&gameState.board.hazards[i].x<rIndex&&gameState.board.hazards[i].x>boardMidx){
+    //         wallR--
+    //         rIndex--
+    //         console.log("Border shrink right");
+    //     }
+    //     if (gameState.board.hazards[i].x==5 && gameState.board.hazards[i].y >dIndex){
+    //         wallD++
+    //         dIndex++
+    //         console.log("Border shrink down");
+    //     }  
+    //     if(gameState.board.hazards[i].x==5 && gameState.board.hazards[i].y <uIndex){
+    //         wallU--
+    //         console.log("Border shrink up");
+    //     }
+    // }
+    
+        if(myHead.x == 0){
             moveSafety.left = false
             console.log("border left"); 
         }
-        if(myHead.x == wallR){
+        if(myHead.x == gameState.board.width-1){
             moveSafety.right = false
             console.log("border right");
         }
-        if(myHead.y == wallD){
+        if(myHead.y == 0){
             moveSafety.down = false
             console.log("border down");
         }
-        if(myHead.y == wallU){
+        if(myHead.y == gameState.board.height-1){
             moveSafety.up = false
             console.log("border up");
         }
