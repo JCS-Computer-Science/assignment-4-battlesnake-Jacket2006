@@ -26,41 +26,10 @@ export default function move(gameState){
     // TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     // gameState.board contains an object representing the game board including its width and height
     // https://docs.battlesnake.com/api/objects/board
-    let wallL = 0
-    let wallR = 10
-    let wallU = 10
-    let wallD = 0
-    
-    let lIndex = -1
-    let rIndex = 11
-    let uIndex = 11
-    let dIndex = -1
-    let boardMidx = gameState.board.width/2
-    let boardMidy = gameState.board.length/2
+   
 
     
-    //if()
-    // for (let i = 0; i < gameState.board.hazards.length; i++) {
-    //     if(gameState.board.hazards[i].y==5&&gameState.board.hazards[i].x>lIndex&&gameState.board.hazards[i].x<boardMidx){
-    //         wallL++
-    //         lIndex++
-    //         console.log("Border shrink left");
-    //     }
-    //     if(gameState.board.hazards[i].y==5&&gameState.board.hazards[i].x<rIndex&&gameState.board.hazards[i].x>boardMidx){
-    //         wallR--
-    //         rIndex--
-    //         console.log("Border shrink right");
-    //     }
-    //     if (gameState.board.hazards[i].x==5 && gameState.board.hazards[i].y >dIndex){
-    //         wallD++
-    //         dIndex++
-    //         console.log("Border shrink down");
-    //     }  
-    //     if(gameState.board.hazards[i].x==5 && gameState.board.hazards[i].y <uIndex){
-    //         wallU--
-    //         console.log("Border shrink up");
-    //     }
-    // }
+   
     
         if(myHead.x == 0){
             moveSafety.left = false
@@ -100,7 +69,8 @@ export default function move(gameState){
                 console.log("unsafe move right");
             }
         }
-        //if()
+        
+        
     
     // TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     // gameState.board.snakes contains an array of enemy snake objects, which includes their coordinates
@@ -168,8 +138,6 @@ export default function move(gameState){
     }
 
 
-
-
     for (let i = 0; i < gameState.board.snakes.length; i++) {//snake loop
 
         for (let n = 0; n < gameState.board.snakes[i].body.length; n++) {//snake coords loop
@@ -189,10 +157,31 @@ export default function move(gameState){
             if(myHead.x==gameState.board.snakes[i].body[n].x-1 && myHead.y==gameState.board.snakes[i].body[n].y){
                 moveSafety.right =false
                 console.log("caution snake right");
-                
             }
         }
     }
+    const hazards = gameState.board.hazards;
+
+    for (let i = 0; i < hazards.length; i++) {
+        let hazard = hazards[i];
+        if (hazard.x === myHead.x && hazard.y === myHead.y + 1) {
+            moveSafety.up = false
+            console.log("Avoid up: hazard");
+        }
+        if (hazard.x === myHead.x && hazard.y === myHead.y - 1) {
+            moveSafety.down = false
+            console.log("Avoid down: hazard");
+        }
+        if (hazard.x === myHead.x - 1 && hazard.y === myHead.y) {
+            moveSafety.left = false
+            console.log("Avoid left: hazard");
+        }
+        if (hazard.x === myHead.x + 1 && hazard.y === myHead.y) {
+            moveSafety.right = false
+            console.log("Avoid right: hazard");
+        }
+    }
+
     
    //dead ends
    
@@ -202,11 +191,24 @@ export default function move(gameState){
     //Object.keys(moveSafety) returns ["up", "down", "left", "right"]
     //.filter() filters the array based on the function provided as an argument (using arrow function syntax here)
     //In this case we want to filter out any of these directions for which moveSafety[direction] == false
+    let nextMove
     const safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
     if (safeMoves.length == 0) {
         console.log(`MOVE ${gameState.turn}: No safe moves detected! Moving down`);
-        return { move: safeMoves[Math.floor(Math.random() * safeMoves.length)] };
+        if(myHead.x>gameState.board.food[0].x){
+            nextMove = "left"
+        }
+        if(myHead.x<gameState.board.food[0].x){
+                nextMove = "right"
+        }
+        if(myHead.y>gameState.board.food[0].y){
+            nextMove = "down"
+        }
+        if(myHead.y<gameState.board.food[0].y){
+            nextMove = "up"
+        }
     }
+    
     
     // Choose a random move from the safe moves
     
@@ -215,7 +217,6 @@ export default function move(gameState){
     
 
     
-    let nextMove
    let biggestSnake //= safeMoves[Math.floor(Math.random() * safeMoves.length)];
     // TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
     // gameState.board.food contains an array of food coordinates https://docs.battlesnake.com/api/objects/board
